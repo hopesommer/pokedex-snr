@@ -1334,20 +1334,6 @@
   resolved "https://registry.npmjs.org/@emotion/memoize/-/memoize-0.8.0.tgz"
   integrity sha512-G/YwXTkv7Den9mXDO7AhLWkE3q+I92B+VqAE+dYG4NGPaHZGvt3G8Q0p9vmE+sq7rTGphUbAvmQ9YpbfMQGGlA==
 
-"@emotion/react@^11.10.5":
-  version "11.10.5"
-  resolved "https://registry.npmjs.org/@emotion/react/-/react-11.10.5.tgz"
-  integrity sha512-TZs6235tCJ/7iF6/rvTaOH4oxQg2gMAcdHemjwLKIjKz4rRuYe1HJ2TQJKnAcRAfOUDdU8XoDadCe1rl72iv8A==
-  dependencies:
-    "@babel/runtime" "^7.18.3"
-    "@emotion/babel-plugin" "^11.10.5"
-    "@emotion/cache" "^11.10.5"
-    "@emotion/serialize" "^1.1.1"
-    "@emotion/use-insertion-effect-with-fallbacks" "^1.0.0"
-    "@emotion/utils" "^1.2.0"
-    "@emotion/weak-memoize" "^0.3.0"
-    hoist-non-react-statics "^3.3.1"
-
 "@emotion/serialize@^1.1.1":
   version "1.1.1"
   resolved "https://registry.npmjs.org/@emotion/serialize/-/serialize-1.1.1.tgz"
@@ -2426,12 +2412,6 @@
   resolved "https://registry.npmjs.org/@types/estree/-/estree-0.0.39.tgz"
   integrity sha512-EYNwp3bU+98cpU4lAWYYL7Zz+2gryWH1qbdDTidVd6hkiR6weksdbMadyXKXNPEkQFhXM+hVO9ZygomHXp+AIw==
 
-"@types/gestalt@^71.0.0":
-  version "71.0.0"
-  resolved "https://registry.yarnpkg.com/@types/gestalt/-/gestalt-71.0.0.tgz#8e4c8f1be88d59ce2e7772f3af2522d4bef3247d"
-  integrity sha512-OF64tM7RMJUIXvPn9bUx6nY8CIW7ctoi1VBT3j3QWMUVdkbEYbNem+W2Ge58AL4yJg0f4XZBPVlXklpF6tT/AQ==
-  dependencies:
-    "@types/react" "*"
 
 "@types/glob@^7.1.1":
   version "7.2.0"
@@ -2565,20 +2545,6 @@
   version "17.0.3"
   resolved "https://registry.npmjs.org/@types/react-is/-/react-is-17.0.3.tgz"
   integrity sha512-aBTIWg1emtu95bLTLx0cpkxwGW3ueZv71nE2YFBpL8k/z5czEW8yYpOo8Dp+UUAFAtKwNaOsh/ioSeQnWlZcfw==
-  dependencies:
-    "@types/react" "*"
-
-"@types/react-masonry-layout@^0.4.2":
-  version "0.4.2"
-  resolved "https://registry.yarnpkg.com/@types/react-masonry-layout/-/react-masonry-layout-0.4.2.tgz#0dd90bfe2bccb1f3337b2de730bd1633f634a1d7"
-  integrity sha512-BkKNlsTKAiIb09BJ9ho9xhsVA7uatws/MrnDS45RDd5pCigs77TTuQ+W7yVz3gQfNDyR4qiXA2KWcVSHg+i6Ww==
-  dependencies:
-    "@types/react" "*"
-
-"@types/react-responsive-masonry@^2.1.0":
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/@types/react-responsive-masonry/-/react-responsive-masonry-2.1.0.tgz#0aa746f829c520b83697e1e4b7b2aa39c247622f"
-  integrity sha512-gbo9TMKGsgkER/AKycuTtpUJA4Rmzfm5ol7jBzNOdgjpZFBS/SmaNTVAa0qDDRu3xKEuCOcip+RtbC7TaXllnA==
   dependencies:
     "@types/react" "*"
 
@@ -6489,19 +6455,6 @@ gensync@^1.0.0-beta.1, gensync@^1.0.0-beta.2:
   version "1.0.0-beta.2"
   resolved "https://registry.npmjs.org/gensync/-/gensync-1.0.0-beta.2.tgz"
   integrity sha512-3hN7NaskYvMDLQY55gnW3NQ+mesEAepTqlg+VEbj7zzqEMBVNhzcGYYeqFo/TlYz6eQiFcp1HcsCZO+nGgS8zg==
-
-gestalt-design-tokens@>0.0.0:
-  version "85.1.3"
-  resolved "https://registry.yarnpkg.com/gestalt-design-tokens/-/gestalt-design-tokens-85.1.3.tgz#a7cbfc01c3c562445351a26345697eb863593e64"
-  integrity sha512-VqOU8u+wghczT/QmjtuKww8QMKdKxvZv4IFCk06dPVtQx7P235zv1D5P0+FfyWsrXNy5yMAq21FgRqMw4z0AQw==
-
-gestalt@^85.1.3:
-  version "85.1.3"
-  resolved "https://registry.yarnpkg.com/gestalt/-/gestalt-85.1.3.tgz#93045c0e408ef3b2fab3a8468f8757ebbdcd1a0c"
-  integrity sha512-kVbtJOMELihUTKOrkX9TLtvKQq9PN+8VQzCplQeF3jslwkL5CzSHm9HPakXAKn10gWueaemUG4UPP33HsplSQg==
-  dependencies:
-    classnames "^2.2.6"
-    gestalt-design-tokens ">0.0.0"
 
 get-caller-file@^2.0.1, get-caller-file@^2.0.5:
   version "2.0.5"
@@ -11867,11 +11820,6 @@ react-refresh@^0.8.3:
   resolved "https://registry.npmjs.org/react-refresh/-/react-refresh-0.8.3.tgz"
   integrity sha512-X8jZHc7nCMjaCqoU+V2I0cOhNW+QMBwSUkeXnTi8IPe6zaRWfn60ZzvFDZqWPfmSJfjub7dDW1SP0jaHWLu/hg==
 
-react-responsive-masonry@^2.1.6:
-  version "2.1.6"
-  resolved "https://registry.yarnpkg.com/react-responsive-masonry/-/react-responsive-masonry-2.1.6.tgz#84b3a9e9ba50553b8df8818c79ea2203945d8d63"
-  integrity sha512-yERdzOPvdr+eJdqPlRpkTnvCmURYDdwGxaLBjA/noZlrxL3TlxaP98wN0RjYDAG6g6B2f4hhoBZz4Yqi3YbrLg==
-
 react-router-dom@^6.0.2:
   version "6.0.2"
   resolved "https://registry.npmjs.org/react-router-dom/-/react-router-dom-6.0.2.tgz"
@@ -13282,22 +13230,6 @@ style-to-object@^0.3.0:
   integrity sha512-CzFnRRXhzWIdItT3OmF8SQfWyahHhjq3HwcMNCNLn+N7klOOqPjMeG/4JSu77D7ypZdGvSzvkrbyeTMizz2VrA==
   dependencies:
     inline-style-parser "0.1.1"
-
-styled-components@^5.3.6:
-  version "5.3.6"
-  resolved "https://registry.npmjs.org/styled-components/-/styled-components-5.3.6.tgz"
-  integrity sha512-hGTZquGAaTqhGWldX7hhfzjnIYBZ0IXQXkCYdvF1Sq3DsUaLx6+NTHC5Jj1ooM2F68sBiVz3lvhfwQs/S3l6qg==
-  dependencies:
-    "@babel/helper-module-imports" "^7.0.0"
-    "@babel/traverse" "^7.4.5"
-    "@emotion/is-prop-valid" "^1.1.0"
-    "@emotion/stylis" "^0.8.4"
-    "@emotion/unitless" "^0.7.4"
-    babel-plugin-styled-components ">= 1.12.0"
-    css-to-react-native "^3.0.0"
-    hoist-non-react-statics "^3.0.0"
-    shallowequal "^1.1.0"
-    supports-color "^5.5.0"
 
 stylehacks@^4.0.0:
   version "4.0.3"
