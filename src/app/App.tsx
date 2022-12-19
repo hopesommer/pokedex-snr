@@ -12,16 +12,14 @@ function App() {
  
   return (
         <div className={classes.root}>
-            <Nav />
             <div className={classes.content}>
               <div className={classes.scrollableArea}>
                 <Routes location={background || location}>
-                  <Route path="/" element={<Home />} />
-                  <Route path="/pokemon/" element={<ListPage />}>
+                  <Route path="/" element={<ListPage />}>
                     <Route path=":id/:name" element={<PokemonModal/>}/>
                   </Route>
                 </Routes>
-                {background && (
+                {background && ( 
                   <Routes>
                     <Route path=":id/:name" element={<PokemonModal/>}/>
                   </Routes>

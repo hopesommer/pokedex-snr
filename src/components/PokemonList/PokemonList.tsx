@@ -7,7 +7,6 @@ import { PokemonInfoBadges } from './PokemonInfoBadges';
 import Masonry from '@mui/lab/Masonry';
 import SearchTwoToneIcon from '@mui/icons-material/SearchTwoTone';
 import ClearTwoToneIcon from '@mui/icons-material/ClearTwoTone';
-import _ from 'lodash'
 
 type Pkmn = {
   id: string,

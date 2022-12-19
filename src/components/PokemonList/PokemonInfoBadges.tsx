@@ -1,6 +1,6 @@
 import { createUseStyles, ThemeProvider, useTheme } from 'react-jss';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
-import { Carousel } from '@trendyol-js/react-carousel';
+import { useWindowSize } from '../../hooks/useWindowSize';
 
 type Item = {
     title: string,
@@ -10,7 +10,7 @@ type Item = {
 interface Props {
     id: string,
     info: Array<Item>,
-    fromModal: boolean
+    fromModal: Boolean
 }
 
 interface CustomTheme {
@@ -31,6 +31,7 @@ const theme: CustomTheme = {
 export const PokemonInfoBadges = ({...props}: Props) => {
     const theme = useTheme<CustomTheme>();
     const classes = useStyles({...props, theme});
+    const { isMobile } = useWindowSize();
     const next = (index: number) => {
         let btnList = document.getElementsByClassName('PokemonModal-marquee-0-2-371')[index];
         let width: number | undefined = btnList?.clientWidth;
@@ -46,9 +47,14 @@ export const PokemonInfoBadges = ({...props}: Props) => {
     const hasOverflow = (item: Item) => {
         if (item.title === 'TYPES:') {
             return false 
-        } else if (item.badges.length > 2) {
-            return true
+        } else  {
+            if (isMobile) {
+                return item.badges.length > 1
+            } else {
+                return item.badges.length > 2
+            }
         }
+       
 
         return false
     }
@@ -57,24 +63,46 @@ export const PokemonInfoBadges = ({...props}: Props) => {
         <ThemeProvider theme={theme}>
             {props.info.map((item: Item) => {
                 return (
-                    <div key={`${props.id}-${item.title}`} className={classes.btnList}>
-                        {item.title}
-                        <div className={classes.marquee}>
-                            {item.badges.map((badge, index) => {
-                                return (
-                                    <div key={`${index}-${badge}`} className={classes.badge}>
-                                        {badge}
-                                    </div> 
-                                )
-                            })}
-                        </div> 
-                        {hasOverflow(item) && 
-                            <div onClick={() => next(1)} className={classes.nextBtn}>
-                                <NavigateNextIcon/>
-                            </div>
-                        }
-                        
-                    </div>
+                    <>
+                    {!props.fromModal ? (
+                        <div key={`${props.id}-${item.title}`} className={isMobile ? classes.mobileBtnListReg : classes.btnListReg}>
+                            {item.title}
+                            <div className={classes.marquee}>
+                                {item.badges.map((badge, index) => {
+                                    return (
+                                        <div key={`${index}-${badge}`} className={classes.badge}>
+                                            {badge}
+                                        </div> 
+                                    )
+                                })}
+                            </div> 
+                            {hasOverflow(item) && 
+                                <div onClick={() => next(1)} className={classes.nextBtn}>
+                                    <NavigateNextIcon/>
+                                </div>
+                            }
+                        </div>
+                      ) : (
+                        <div key={`${props.id}-${item.title}`} className={isMobile ? classes.mobileBtnList : classes.btnList}>
+                            {item.title}
+                            <div className={classes.marquee}>
+                                {item.badges.map((badge, index) => {
+                                    return (
+                                        <div key={`${index}-${badge}`} className={classes.badge}>
+                                            {badge}
+                                        </div> 
+                                    )
+                                })}
+                            </div> 
+                            {hasOverflow(item) && 
+                                <div onClick={() => next(1)} className={classes.nextBtn}>
+                                    <NavigateNextIcon/>
+                                </div>
+                            }
+                        </div>
+                      )}
+                    </>
+            
                 )
             })}
         </ThemeProvider>
@@ -84,6 +112,68 @@ export const PokemonInfoBadges = ({...props}: Props) => {
 
 const useStyles = createUseStyles(
     {
+        mobileBtnListReg: {
+            backgroundColor: '#1D283A',
+            display: 'flex',
+            height: '48px',
+            fontWeight: '600',
+            borderRadius: '5px',
+            fontSize: '14px',
+            color: '#B3CCF5',
+            alignItems: 'center',
+            padding: {
+                top: 0,
+                right: 16,
+                bottom: 0,
+                left: 16
+            },
+            border: 'none',
+            marginBottom: '0',
+            position: 'absolute',
+            bottom: '0px',
+            left: '0px',
+            right: '0px',
+        },
+        btnListReg: {
+            backgroundColor: '#1D283A',
+            display: 'flex',
+            height: '48px',
+            fontWeight: '600',
+            borderRadius: '5px',
+            color: '#B3CCF5',
+            alignItems: 'center',
+            padding: {
+                top: 0,
+                right: 16,
+                bottom: 0,
+                left: 16
+            },
+            border: 'none',
+            marginBottom: '0',
+            position: 'absolute',
+            bottom: '0px',
+            left: '0px',
+            right: '0px',
+        },
+        mobileBtnList: {
+            backgroundColor: '#1D283A',
+            display: 'flex',
+            height: '48px',
+            fontWeight: '600',
+            borderRadius: '5px',
+            fontSize: '14px',
+            color: '#B3CCF5',
+            alignItems: 'center',
+            padding: {
+                top: 0,
+                right: 16,
+                bottom: 0,
+                left: 16
+            },
+            border: '1px solid #3ABFF8',
+            marginBottom: '10px',
+            position: 'relative'
+        },
         btnList: {
             backgroundColor: '#1D283A',
             display: 'flex',

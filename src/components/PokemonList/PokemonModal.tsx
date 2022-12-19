@@ -4,6 +4,8 @@ import { createUseStyles } from 'react-jss';
 import { useGetPokemon } from '../../hooks/useGetPokemon'
 import { PokemonInfoBadges } from './PokemonInfoBadges';
 import { PokemonStatTiles } from "./PokemonStatTiles";
+import { useWindowSize } from '../../hooks/useWindowSize';
+import CloseIcon from '@mui/icons-material/Close';
 
 import { 
   Button, 
@@ -48,9 +50,11 @@ type Badges = {
   badges: string[]
 }
 
+
 export const PokemonModal = () => {
     const classes = useStyles();
     const navigate = useNavigate();
+    const { isMobile } = useWindowSize();
     const params = useParams();
     const [numArr, setNumArr] = useState<string[]>([]);
     const [tiles, setTiles] = useState<{title: string; value: number}[]>(
@@ -118,50 +122,65 @@ export const PokemonModal = () => {
       return `${average} kg` 
     }
 
+    const getClassification = () => {
+      if (isMobile) {
+        let nameArr = pkmn.classification.split(' ')
+        return nameArr[0]
+
+      } else {
+        return pkmn.classification
+      }
+    }
+
     return (
-        <div className={classes.modalDiv}>
-            {loading && <div>Loading...</div>}
-            {!loading && <div className={classes.modal}>
-              <div className={classes.gradientContainer}/>
-              <div className={classes.numberContainer}>
-                {numArr.map((num) => {
-                  return (
-                    <div className={classes.num}>{num}</div>
-                  )
-                })}
-              </div>
-              <div className={classes.modalHeader}>
-                  <img className={classes.image} src={pkmn.image}/>
-              </div>
-              <div className={classes.modalContent}>
-                <div className={classes.modalBody}>
-                  <Grid className={classes.grid} container spacing={2}>
-                    <Grid xs={6}>
-                      <div className={classes.title}>{pkmn.name}</div>
-                      <div className={classes.subtitle}>{pkmn.classification}</div>
-                    </Grid>
-                    <Grid xs={1}>
-                      <Divider orientation="vertical"/>
-                    </Grid>
-                    <Grid xs={5} className={classes.measurements}>
-                      <div className={classes.measurement}>Height: {formatHeight(pkmn.height)}</div>
-                      <div className={classes.measurement}>Weight: {formatWeight(pkmn.weight)}</div>
-                    </Grid>
+      <div className={classes.modalDiv}>
+        {loading && <div>Loading...</div>}
+        {!loading && <div className={isMobile ? classes.mobileModal : classes.modal}>
+          <div className={classes.gradientContainer}/>
+          <div className={classes.numberContainer}>
+            {numArr.map((num) => {
+              return (
+                <div className={classes.num}>{num}</div>
+              )
+            })}
+          </div>
+          <div className={classes.closeButton} onClick={() => navigate(-1)}>
+            <CloseIcon/>
+          </div>
+          <div className={classes.modalHeader}>
+              <img className={classes.image} src={pkmn.image}/>
+          </div>
+          <div className={isMobile ? classes.mobileModalContent: classes.modalContent}>
+            <div className={classes.modalBody}>
+              <Grid className={classes.grid} container spacing={2}>
+                <Grid xs={6}>
+                  <div className={isMobile ? classes.mobileTitle : classes.title}>{pkmn.name}</div>
+                  <div className={isMobile ? classes.mobileSubtitle : classes.subtitle}>{getClassification()}</div>
+                </Grid>
+                {!isMobile && <Grid xs={1}>
+                  <Divider orientation="vertical"/>
+                </Grid>}
+                <Grid xs={isMobile ? 6 : 5} className={classes.measurements}>
+                    <div className={classes.measurement}>Height: {formatHeight(pkmn.height)}</div>
+                    <div className={classes.measurement}>Weight: {formatWeight(pkmn.weight)}</div>
                   </Grid>
-                  <PokemonStatTiles tiles={tiles}/>
-                  <PokemonInfoBadges id={pkmn.id} info={badges} fromModal={true}/>
-                </div>
-                <div className={classes.modalFooter}>
-                  <Button className={classes.modalButton} onClick={() => navigate(-1)}>Close</Button> 
-                </div>
-              </div>
-            </div>}
-        </div>  
+              </Grid>
+              <PokemonStatTiles tiles={tiles} isMobile={isMobile}/>
+              <PokemonInfoBadges id={pkmn.id} info={badges} fromModal={true}/>
+            </div>
+          </div>
+        </div>}
+      </div>
     )
 }
 
 const useStyles = createUseStyles(
     {
+      closeButton: {
+        position: 'absolute',
+        top: '10px',
+        right: '10px'
+      },
       modalDiv: {
         width: '100vw',
         height: '100vh',
@@ -175,9 +194,19 @@ const useStyles = createUseStyles(
         justifyContent: 'center',
         alignItems: 'center'
       },   
+      mobileModal: {
+        width: '300px',
+        height: '510px',
+        backgroundColor: '#0f1729',
+        borderRadius: '5px',
+        alignItems: 'center',
+        paddingTop: '20px',
+        justifyContent: 'space-between',
+        position: 'relative'
+      },
       modal: {
         width: '400px',
-        height: '600px',
+        height: '550px',
         backgroundColor: '#0f1729',
         borderRadius: '5px',
         alignItems: 'center',
@@ -193,6 +222,14 @@ const useStyles = createUseStyles(
       },
       modalButton: {
         backgroundColor: '#3ABFF8 !important',
+      },
+      mobileModalContent: {
+        height: '68%',
+        display: 'flex',
+        justifyContent: 'space-between',
+        padding: '0 20px',
+        flexDirection: 'column',
+        marginBottom: '40px',
       },
       modalContent: {
         height: '68%',
@@ -264,12 +301,26 @@ const useStyles = createUseStyles(
         marginBottom: '20px',
         width: 'inherit !important'
       },
+      mobileTitle: {
+        display: 'inline-flex',
+        marginRight: '15px',
+        fontSize: '24px',
+        fontWeight: '700',
+        color: '#3ABFF8'
+      },
       title: {
         display: 'inline-flex',
         marginRight: '15px',
         fontSize: '32px',
         fontWeight: '700',
         color: '#3ABFF8'
+      },
+      mobileSubtitle: {
+        display: 'inline-flex',
+        marginTop: '5px',
+        color: '#3ABFF8',
+        fontWeight: '500',
+        fontSize: '16px',
       },
       subtitle: {
         display: 'inline-flex',
