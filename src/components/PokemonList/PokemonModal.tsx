@@ -77,11 +77,11 @@ export const PokemonModal = () => {
           badges: pkmn.types,
         },
         {
-          title: 'RESISTANT',
+          title: 'RESISTANT:',
           badges: pkmn.resistant,
         },
         {
-          title: 'WEAKNESSES',
+          title: 'WEAKNESSES:',
           badges: pkmn.weaknesses,
         }
       ]
@@ -167,6 +167,9 @@ const useStyles = createUseStyles(
         height: '100vh',
         position: 'fixed',
         top: '0',
+        bottom: '0',
+        left: '0',
+        right: '0',
         backgroundColor: '#5b708366',
         display: 'flex',
         justifyContent: 'center',

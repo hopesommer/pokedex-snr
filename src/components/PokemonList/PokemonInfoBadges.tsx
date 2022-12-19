@@ -1,5 +1,6 @@
 import { createUseStyles, ThemeProvider, useTheme } from 'react-jss';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
+import { Carousel } from '@trendyol-js/react-carousel';
 
 type Item = {
     title: string,
