@@ -1,9 +1,13 @@
 import React, { useEffect, useState, Fragment, KeyboardEvent} from 'react';
 import { createUseStyles, ThemeProvider, useTheme } from 'react-jss';
 import { useGetPokemons } from '../../hooks/useGetPokemons';
+import { useWindowSize } from '../../hooks/useWindowSize';
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { PokemonInfoBadges } from './PokemonInfoBadges';
 import Masonry from '@mui/lab/Masonry';
+import SearchTwoToneIcon from '@mui/icons-material/SearchTwoTone';
+import ClearTwoToneIcon from '@mui/icons-material/ClearTwoTone';
+import _ from 'lodash'
 
 type Pkmn = {
   id: string,
@@ -248,6 +252,7 @@ type SearchState = {
 export const PokemonList = () => {
   const classes = usePokemonListStyles();
   const { pokemons, loading, names } = useGetPokemons();
+  const { windowSize } = useWindowSize();
   const [filteredResults, setFilteredResults] = useState<Pokemon[]>(pokemons);
   const initialSearchState = {
     activeSuggestion: 0,
@@ -306,7 +311,6 @@ export const PokemonList = () => {
       if (searchState.activeSuggestion - 1 === searchState.filteredSuggestions.length) {
         return;
       }
-      console.log('DOWN')
       setSearchState({
         ...searchState,
         activeSuggestion: searchState.activeSuggestion + 1
@@ -331,30 +335,60 @@ export const PokemonList = () => {
     setFilteredResults(updatedResults)
   }
 
+  const clearSearchState = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    setSearchState({
+      ...searchState,
+      activeSuggestion: 0,
+      filteredSuggestions: [],
+      showSuggestions: false,
+      userInput: e.currentTarget.innerText
+    })
+  }
+  
+  const getColumns = () => {
+    if (windowSize?.width && typeof windowSize.width === 'number') {
+      if (windowSize?.width <= 600) {
+        return 1
+      } else if (windowSize?.width > 600 && windowSize?.width <= 760) {
+        return 2
+      } else if (windowSize?.width > 760 && windowSize?.width <= 989) {
+        return 3
+      } else if (windowSize?.width > 989) {
+        return 4
+      }
+    } else {
+      return 3
+    }
+  }
+
   return (
     <div className={classes.root}>
       {loading && <div>Loading...</div>}
       <Fragment>
-        <input
-          className={classes.searchInput}
-          type="text"
-          onChange={(e) => onChange(e)}
-          onKeyDown={(e) => onKeyDown(e)}
-          value={searchState.userInput}
-        />
+        <div className={classes.inputContainer}>
+          <div className={classes.searchIcon}>
+            <SearchTwoToneIcon/>
+          </div>
+          <div className={classes.resetIcon} onClick={(e) => clearSearchState(e)}>
+            <ClearTwoToneIcon/>
+          </div>
+          <input
+            className={classes.searchInput}
+            type="text"
+            placeholder="Type here"
+            onChange={(e) => onChange(e)}
+            onKeyDown={(e) => onKeyDown(e)}
+            value={searchState.userInput}
+          />
+        </div>
         <div>
-          {searchState.filteredSuggestions.length && 
-             <ul className="suggestions">
+          {searchState.filteredSuggestions.length > 0 && 
+             <ul className={classes.suggestions}>
              {searchState.filteredSuggestions.map((suggestion, index) => {
-               let className;
- 
-               // Flag the active suggestion with a class
-               if (index === searchState.activeSuggestion) {
-                 className = "suggestion-active";
-               }
+      
  
                return (
-                 <li className={className} key={suggestion} onClick={(e) => onClick(e)}>
+                 <li key={suggestion} onClick={(e) => onClick(e)}>
                    {suggestion}
                  </li>
                );
@@ -363,7 +397,7 @@ export const PokemonList = () => {
           }
         </div>
       </Fragment>
-      <Masonry columns={3}>
+      <Masonry columns={getColumns()} className={classes.masonry}>
           <ThemeProvider theme={theme}>
             {filteredResults.map((pkmn, index) => {
               return (
@@ -388,9 +422,85 @@ const usePokemonListStyles = createUseStyles(
       textAlign: 'center',
       padding: '32px',
       boxSizing: 'border-box',
+      '& input:focus-visible': {
+        outline: 'none'
+      },
+      '& ul': {
+        paddingInlineStart: '0'
+      }
+    },
+    inputContainer: {
+      position: 'relative'
+    },
+    suggestions: {
+      // border: '1px solid #3ABFF8',
+      borderTop: 'none',
+      borderLeft: '2px solid #3ABFF8',
+      borderBottom: '2px solid #3ABFF8',
+      borderRight: '2px solid #3ABFF8', 
+      borderBottomLeftRadius: '5px',
+      borderBottomRightRadius: '5px',
+      listStyle: 'none',
+      margin: {
+        left: 3,
+        top: 0
+      },
+      maxHeight: '143px',
+      overflowY: 'auto',
+      textAlign: 'left',
+      '& li': {
+        margin: {
+          top: 5,
+          bottom: 5
+        },
+        padding: '0.5rem'
+      },
+      '& li:hover': {
+        backgroundColor: '#828DF8',
+        color: 'white'
+      }
+    },
+    searchIcon: {
+      position: 'absolute',
+      top: '0',
+      bottom: '0',
+      left: '0',
+      width: '44px',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    resetIcon: {
+      position: 'absolute',
+      top: '0',
+      bottom: '0',
+      right: '0',
+      width: '44px',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
     },
     searchInput: {
-      color: '#000'
+      color: '#B3C5EF',
+      backgroundColor: '#1D283A',
+      height: '48px',
+      padding: {
+        top: 0,
+        left: 40,
+        right: 16,
+        bottom: 0
+      },
+      fontSize: '16px',
+      border: '2px solid #3ABFF8',
+      borderRadius: '5px',
+      width: '-webkit-fill-available',
+      fontWeight: '500',
+      margin: {
+        left: 3
+      }
+    },
+    masonry: {
+      marginTop: '20px !important',
     },
     autocomplete: {
 
@@ -398,7 +508,7 @@ const usePokemonListStyles = createUseStyles(
     searchBar: {
       marginBottom: '20px',
       '& input': {
-        color: "whit"
+        color: "white"
       }
     },
     stack: {
